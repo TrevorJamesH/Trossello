@@ -50,13 +50,19 @@ const getUsersForBoard = (board) => {
     })
 }
 
+const getLabelsForBoard = (board) => {
+  return knex.table('labels')
+  .where('board_id', board.id)
+}
+
 const getBoardById = (id) =>
   getRecordById('boards', id)
     .then( board => {
       if (board){
         return Promise.all([
           getListsAndCardsForBoard(board),
-          getUsersForBoard(board)
+          getUsersForBoard(board),
+          getLabelsForBoard(board)
         ]).then( () => board)
       }else{
         return Promise.resolve(board)
@@ -99,8 +105,14 @@ const getListById = (id) =>
   getRecordById('lists', id)
 
 
-const getCardById = (id) =>
-  getRecordById('cards', id)
+const getCardById = (id) => {
+  // getRecordById('cards', id)
+  return knex.table('cards')
+  .select('*')
+  .where('id',id)
+  .innerJoin('card_labels','cards.id','card_labels.card_id')
+  .innerJoin('labels', 'card_labels.label_id', 'labels.id')
+}
 
 // INVITES
 
@@ -111,7 +123,23 @@ const getInviteByToken = (token) => {
     .first()
 }
 
+// const getLabelsByCard = ( card ) => {
+//   return knex
+//   .select('*')
+//   .from('card_labels')
+//   .where('card_id', card.id )
+//   .innerJoin('labels','card_labels.label_id','labels.id')
+// }
+//
+// const getLabelsByBoard = ( board ) => {
+//   return knex.table('labels')
+//   .select('*')
+//   .where('labels.board_id', board.id )
+// }
+
 export default {
+  // getLabelsByCard,
+  // getLabelsByBoard,
   getUsers,
   getUserById,
   getCardById,

@@ -79,7 +79,7 @@ knex migrate:latest
 ```
 #### Run the Server!
 
-At this point, you should be able to run 'npm start' without errors.
+At this point, you shoco run 'npm start' without errors.
 
 
 #### Running Tests
