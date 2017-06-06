@@ -119,6 +119,7 @@ const Controls = ({card, closeModal, board, list}) => {
   return <div className="CardModal-controls">
     <div className="CardModal-controls-title">Add</div>
     <Button><Icon type="user" /> Members</Button>
+    <Button><Icon type="tag" /> Labels</Button>
     <div className="CardModal-controls-title">Actions</div>
     {toggleOnArchived}
     <PopoverMenuButton className="CardModal-controls-copy" type="default" popover={copyCard}>

@@ -424,7 +424,22 @@ const searchQuery = ( userId, searchTerm ) => {
   })
 }
 
+const createLabel = ( attributes ) => {
+  createRecord('labels', attributes)
+}
+
+const editLabel = ( attributes ) => {
+  updateRecord( 'labels', attributes.id, attributes )
+}
+
+const deleteLabel = ( id ) => {
+  deleteRecord( 'labels', id )
+}
+
 export default {
+  deleteLabel,
+  editLabel,
+  createLabel,
   createUser,
   updateUser,
   deleteUser,
