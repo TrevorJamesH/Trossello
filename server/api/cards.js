@@ -17,11 +17,6 @@ router.post('/:cardId', (request, response, next) => {
     .catch(next)
 })
 
-// GRAB LABELS
-router.get('/labels', (request, response, next) => {
-
-})
-
 // ARCHIVE
 router.post('/:cardId/archive', (request, response, next) => {
   commands.archiveCard(request.params.cardId)
