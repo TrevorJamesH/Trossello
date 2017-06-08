@@ -31,11 +31,8 @@ router.post('/:labelId', (request, response, next) => {
 
 // DELETE
 router.post('/:labelId/delete', (request, response, next) => {
-  console.log("Deleting label")
   commands.deleteLabel(request.body.labelId)
-    .then(() => {
-      response.json(null)
-    })
+    .then(() => response.json(null))
     .catch(next)
 })
 

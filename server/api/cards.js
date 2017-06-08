@@ -62,13 +62,11 @@ router.post('/:cardId/move', (request, response, next) => {
 
 // APPLY LABEL
 router.post('/:cardId/applyLabel/:labelId', (request, response, next) => {
-  console.log('addLabel request.params',request.params)
-  let { cardId, labelId } = request.params
+  const { cardId, labelId } = request.params
+
   commands.applyLabel( cardId, labelId )
-  .then(() => {
-    response.json(null)
-  })
-  .catch(next)
+    .then(() => response.json(null))
+    .catch(next)
 })
 
 
