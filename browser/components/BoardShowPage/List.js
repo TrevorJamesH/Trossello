@@ -62,7 +62,6 @@ export default class List extends Component {
 
   render(){
     const { board, list } = this.props
-
     const cards = this.props.cards
       .filter(card => card.list_id === list.id)
       .sort((a, b) => a.order - b.order)

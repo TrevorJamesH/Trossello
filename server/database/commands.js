@@ -436,9 +436,21 @@ const deleteLabel = ( id ) => {
   return deleteRecord( 'labels', id )
 }
 
-// const addLabelToBoard = (  )
+const applyLabel = ( cardId, labelId ) => {
+  console.log('applyLabel query obj', {card_id: cardId, label_id: labelID})
+  return createRecord('card_labels', {card_id: cardId, label_id: labelID})
+}
+
+const removeLabel = ( cardId, labelId ) => {
+  return knex
+    .table('card_labels')
+    .where({card_id: cardId, label_id: labelID})
+    .del()
+}
 
 export default {
+  applyLabel,
+  removeLabel,
   deleteLabel,
   editLabel,
   createLabel,

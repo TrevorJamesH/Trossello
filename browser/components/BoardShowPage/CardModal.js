@@ -11,6 +11,7 @@ import boardStore from '../../stores/boardStore'
 import PopoverMenuButton from '../PopoverMenuButton'
 import CopyCard from './CopyCard'
 import LabelCard from './LabelCard'
+import CardLabel from './CardLabel'
 import './CardModal.sass'
 import $ from 'jquery'
 
@@ -41,8 +42,29 @@ export default class CardModal extends Component {
     this.updateDescription(description)
   }
 
-  toggleLabel(){
+  toggleLabel( index ){
+    console.log('toggleLabel', index)
+    this.props.card.labels.some( label => label.id === this.props.board.labels[index].id )
+    ? this.removeLabelFromCard( index )
+    : this.addLabelToCard( index )
+  }
 
+  addLabelToCard( index ){
+    $.ajax({
+      method: "POST",
+      url: `/api/cards/${this.props.card.id}/applyLabel/${this.props.board.labels[index].id}`
+    }).then(() => {
+      boardStore.reload()
+    })
+  }
+
+  removeLabelFromCard( index ){
+    $.ajax({
+      method: "POST",
+      url: `/api/cards/${this.props.card.id}/removeLabel/${this.props.board.labels[index].id}`
+    }).then(() => {
+      boardStore.reload()
+    })
   }
 
   render(){
@@ -69,7 +91,7 @@ export default class CardModal extends Component {
       </div>
     }
 
-    
+
     console.log('cardModal state',this.state)
     console.log('cardModal props',this.props)
     const { session } = this.context
@@ -102,6 +124,8 @@ export default class CardModal extends Component {
                         <Icon size="1" type="eye"  />
                       </span>
                     </div>
+                      <h4>Labels</h4>
+                      <CardLabel card={card} />
                       <CardDescription card={card} />
                   </div>
                 </div>
@@ -253,12 +277,12 @@ class CardName extends Component {
   }
 
   render() {
-    return <input
+    return (<input
       type="text"
       value={this.state.value}
       onChange={this.setValue}
       onBlur={this.updateName}
-    />
+    />)
   }
 }
 

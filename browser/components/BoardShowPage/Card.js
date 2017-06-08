@@ -8,6 +8,7 @@ import autosize from 'autosize'
 import ArchiveButton from './ArchiveButton'
 import ConfirmationLink from '../ConfirmationLink'
 import EditCardForm from './EditCardForm'
+import CardLabel from './CardLabel'
 
 export default class Card extends Component {
   static contextTypes = {
@@ -128,6 +129,7 @@ export default class Card extends Component {
         onDragStart={this.props.onDragStart}
       >
         <pre>{card.content}</pre>
+        <CardLabel card={card} />
         {archivedFooter}
       </Link>
       <div className="BoardShowPage-Card-controls">
