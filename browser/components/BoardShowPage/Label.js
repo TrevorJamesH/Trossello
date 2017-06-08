@@ -11,8 +11,10 @@ export default class Label extends Component {
   render(){
     const { name, color } = this.props.label
     return(
-      <div className="BoardShowPage-Card-box" style={{backgroundColor: color}} onClick={()=>this.props.onClick(this.props.index)}>
-        {name}
+      <div>
+        <div className="BoardShowPage-Card-box" style={{backgroundColor: color}} onClick={()=>this.props.onClick(this.props.index)}>
+          {name}
+        </div>
       </div>
     )
   }

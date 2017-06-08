@@ -8,7 +8,7 @@ export default class CardLabels extends Component {
   render() {
     const labels = this.props.card.labels.map( (label, index) => {
       return(
-      <span key={index} style={{backgroundColor: label.color}}>{label.name}</span>
+      <span className="label" key={index} style={{backgroundColor: label.color}}>{label.name}</span>
     )
     })
 
