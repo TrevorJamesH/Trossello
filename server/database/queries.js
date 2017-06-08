@@ -51,8 +51,15 @@ const getUsersForBoard = (board) => {
 }
 
 const getLabelsForBoard = (board) => {
+  console.log('getLabelsForBoard ran')
   return knex.table('labels')
+  .select('*')
   .where('board_id', board.id)
+  .then( labels => {
+    board.labels = labels
+    console.log(labels)
+    return board
+  })
 }
 
 const getBoardById = (id) =>
@@ -62,7 +69,7 @@ const getBoardById = (id) =>
         return Promise.all([
           getListsAndCardsForBoard(board),
           getUsersForBoard(board),
-          getLabelsForBoard(board)
+          getLabelsForBoard(board),
         ]).then( () => board)
       }else{
         return Promise.resolve(board)

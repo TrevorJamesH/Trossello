@@ -10,6 +10,7 @@ import ConfirmationButton from '../ConfirmationButton'
 import boardStore from '../../stores/boardStore'
 import PopoverMenuButton from '../PopoverMenuButton'
 import CopyCard from './CopyCard'
+import LabelCard from './LabelCard'
 import './CardModal.sass'
 import $ from 'jquery'
 
@@ -110,6 +111,7 @@ export default class CardModal extends Component {
 
 const Controls = ({card, closeModal, board, list}) => {
   const copyCard = <CopyCard card={card} board={board} list={list}/>
+  const labelCard = <LabelCard card={card} board={board} list={list}/>
   const toggleOnArchived = card.archived ?
     <div>
       <UnArchiveCardButton card={card} />
@@ -119,7 +121,9 @@ const Controls = ({card, closeModal, board, list}) => {
   return <div className="CardModal-controls">
     <div className="CardModal-controls-title">Add</div>
     <Button><Icon type="user" /> Members</Button>
-    <Button><Icon type="tag" /> Labels</Button>
+    <PopoverMenuButton className="CardModal-controls-copy" type="default" popover={labelCard}>
+    <Icon type="tag" /> Labels
+    </PopoverMenuButton>
     <div className="CardModal-controls-title">Actions</div>
     {toggleOnArchived}
     <PopoverMenuButton className="CardModal-controls-copy" type="default" popover={copyCard}>

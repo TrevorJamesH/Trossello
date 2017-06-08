@@ -436,6 +436,8 @@ const deleteLabel = ( id ) => {
   deleteRecord( 'labels', id )
 }
 
+// const addLabelToBoard = (  )
+
 export default {
   deleteLabel,
   editLabel,

@@ -11,7 +11,7 @@ router.post('/', (request, response, next) => {
       console.log("created label, didnt break")
       response.json(null)
     })
-    .catch(next)
+    .catch(console.log("create label route didnt work"))
 })
 
 // EDIT
