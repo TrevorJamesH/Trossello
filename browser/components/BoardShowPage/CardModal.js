@@ -41,7 +41,37 @@ export default class CardModal extends Component {
     this.updateDescription(description)
   }
 
+  toggleLabel(){
+
+  }
+
   render(){
+    const Controls = ({card, closeModal, board, list}) => {
+      const copyCard = <CopyCard card={card} board={board} list={list}/>
+      const labelCard = <LabelCard card={card} board={board} list={list} toggleLabel={this.toggleLabel.bind(this)}/>
+      const toggleOnArchived = card.archived ?
+        <div>
+          <UnArchiveCardButton card={card} />
+          <DeleteCardButton card={card} onDelete={closeModal} />
+        </div> :
+        <ArchiveCardButton card={card} onArchive={closeModal}/>
+      return <div className="CardModal-controls">
+        <div className="CardModal-controls-title">Add</div>
+        <Button><Icon type="user" /> Members</Button>
+        <PopoverMenuButton className="CardModal-controls-copy" type="default" popover={labelCard}>
+        <Icon type="tag" /> Labels
+        </PopoverMenuButton>
+        <div className="CardModal-controls-title">Actions</div>
+        {toggleOnArchived}
+        <PopoverMenuButton className="CardModal-controls-copy" type="default" popover={copyCard}>
+          <Icon type="files-o" /> Copy
+        </PopoverMenuButton>
+      </div>
+    }
+
+    
+    console.log('cardModal state',this.state)
+    console.log('cardModal props',this.props)
     const { session } = this.context
     const { card, list, board } = this.props
     const archivedBanner = card.archived?
@@ -107,29 +137,6 @@ export default class CardModal extends Component {
         </div>
       </div>
     }
-}
-
-const Controls = ({card, closeModal, board, list}) => {
-  const copyCard = <CopyCard card={card} board={board} list={list}/>
-  const labelCard = <LabelCard card={card} board={board} list={list}/>
-  const toggleOnArchived = card.archived ?
-    <div>
-      <UnArchiveCardButton card={card} />
-      <DeleteCardButton card={card} onDelete={closeModal} />
-    </div> :
-    <ArchiveCardButton card={card} onArchive={closeModal}/>
-  return <div className="CardModal-controls">
-    <div className="CardModal-controls-title">Add</div>
-    <Button><Icon type="user" /> Members</Button>
-    <PopoverMenuButton className="CardModal-controls-copy" type="default" popover={labelCard}>
-    <Icon type="tag" /> Labels
-    </PopoverMenuButton>
-    <div className="CardModal-controls-title">Actions</div>
-    {toggleOnArchived}
-    <PopoverMenuButton className="CardModal-controls-copy" type="default" popover={copyCard}>
-      <Icon type="files-o" /> Copy
-    </PopoverMenuButton>
-  </div>
 }
 
 class DeleteCardButton extends Component {

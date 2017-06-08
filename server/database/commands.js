@@ -425,15 +425,15 @@ const searchQuery = ( userId, searchTerm ) => {
 }
 
 const createLabel = ( attributes ) => {
-  createRecord('labels', attributes)
+  return createRecord('labels', attributes)
 }
 
 const editLabel = ( attributes ) => {
-  updateRecord( 'labels', attributes.id, attributes )
+  return updateRecord( 'labels', attributes.id, attributes )
 }
 
 const deleteLabel = ( id ) => {
-  deleteRecord( 'labels', id )
+  return deleteRecord( 'labels', id )
 }
 
 // const addLabelToBoard = (  )

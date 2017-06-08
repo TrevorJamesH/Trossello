@@ -4,9 +4,8 @@ const router = new express.Router()
 
 // CREATE
 router.post('/', (request, response, next) => {
-  console.log("attempting label creation")
-  console.log(request.params)
-  commands.createLabel(request.params)
+  console.log("label post request", request.body)
+  commands.createLabel(request.body)
     .then( () => {
       console.log("created label, didnt break")
       response.json(null)
@@ -17,7 +16,7 @@ router.post('/', (request, response, next) => {
 // EDIT
 router.post('/:labelId', (request, response, next) => {
   console.log("attempting edit")
-  commands.editLabel(request.params.labelId, request.body)
+  commands.editLabel(request.body.labelId, request.body)
     .then(card => {
       if (card){
         response.json(card)
@@ -33,7 +32,7 @@ router.post('/:labelId', (request, response, next) => {
 // DELETE
 router.post('/:labelId/delete', (request, response, next) => {
   console.log("Deleting label")
-  commands.deleteLabel(request.params.labelId)
+  commands.deleteLabel(request.body.labelId)
     .then(() => {
       response.json(null)
     })

@@ -4,6 +4,7 @@ import listsRoutes from './lists'
 import cardsRoutes from './cards'
 import inviteRoutes from './invites'
 import userRoutes from './users'
+import labelRoutes from './labels'
 
 const router = new express.Router()
 
@@ -19,6 +20,7 @@ router.use('/cards',  cardsRoutes)
 router.use('/boards', boardsRoutes)
 router.use('/lists',  listsRoutes)
 router.use('/users', userRoutes)
+router.use('/labels', labelRoutes)
 
 router.use((error, request, response, next) => {
   response.status(error.status || 500);
