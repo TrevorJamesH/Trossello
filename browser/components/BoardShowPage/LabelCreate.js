@@ -41,11 +41,14 @@ export default class LabelCreate extends Component {
   }
 
   onSubmit(event){
+    console.log('label create props', this.props)
+    console.log('label create state', this.state)
     event.preventDefault()
 
     const label = {
       name: this.refs.name.value,
       color: this.refs.color.value,
+      board_id: this.props.board.id
     }
     if (label.name.replace(/\s+/g,'') === '') return
     $.ajax({
@@ -55,6 +58,8 @@ export default class LabelCreate extends Component {
       dataType: "json",
       data: JSON.stringify(label),
     })
+    this.props.onClose()
+    this.props.createLabel( label )
   }
 
   reset(){

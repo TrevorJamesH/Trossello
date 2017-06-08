@@ -51,13 +51,11 @@ const getUsersForBoard = (board) => {
 }
 
 const getLabelsForBoard = (board) => {
-  console.log('getLabelsForBoard ran')
   return knex.table('labels')
   .select('*')
   .where('board_id', board.id)
   .then( labels => {
     board.labels = labels
-    console.log(labels)
     return board
   })
 }
@@ -102,8 +100,24 @@ const getListsAndCardsForBoard = (board) => {
         .orderBy('list_id', 'asc')
         .orderBy('order', 'asc')
         .then(cards => {
-          board.cards = cards
-          return board
+          const cardIds = cards.map( card => card.id )
+          return knex.table('card_labels')
+            .select('*')
+            .whereIn( 'card_id', cardIds )
+            .join('labels','card_labels.label_id','labels.id')
+            .then( cardLabels => {
+              cards = cards.map( card => {
+                card.labels = []
+                cardLabels.forEach( cardLabel => {
+                  if(cardLabel.card_id === card.id){
+                    card.labels.push({name: cardLabel.name, color: cardLabel.color})
+                  }
+                })
+                return card
+              })
+              board.cards = cards
+              return board
+            })
         })
     })
 }
@@ -117,8 +131,6 @@ const getCardById = (id) => {
   return knex.table('cards')
   .select('*')
   .where('id',id)
-  .innerJoin('card_labels','cards.id','card_labels.card_id')
-  .innerJoin('labels', 'card_labels.label_id', 'labels.id')
 }
 
 // INVITES

@@ -43,19 +43,24 @@ export default class LabelCard extends Component {
     })
   }
 
-  labelClickHandler(){
+  createLabel( newLabel ){
+    let state = this.state
+    state.labels.push( newLabel )
+    this.setState(state)
+  }
 
+  labelClickHandler( index ){
+    console.log('adding label ',this.state.labels[index].name,' to card ',this.props.card.content)
   }
 
   buildLabelList(){
     return this.state.labels.map( (label, index) => {
-      return <Label label={label} key={index}/>
+      return <Label label={label} key={index} index={index} onClick={this.labelClickHandler.bind(this)}/>
     })
   }
 
-
   render(){
-    const labelCreate = <LabelCreate board={this.props.board}/>
+    const labelCreate = <LabelCreate board={this.props.board} createLabel={this.createLabel.bind(this)}/>
     if (this.state.boards === null){
       return <DialogBox className="CardModal-CopyCardDialog" heading='Labels' onClose={this.props.onClose}>
         Loading…
