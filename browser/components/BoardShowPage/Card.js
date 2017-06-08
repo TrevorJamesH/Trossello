@@ -128,8 +128,8 @@ export default class Card extends Component {
         draggable
         onDragStart={this.props.onDragStart}
       >
-        <pre>{card.content}</pre>
         <CardLabel card={card} />
+        <pre>{card.content}</pre>
         {archivedFooter}
       </Link>
       <div className="BoardShowPage-Card-controls">
