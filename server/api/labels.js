@@ -6,9 +6,9 @@ const router = new express.Router()
 router.post('/', (request, response, next) => {
   console.log("label post request", request.body)
   commands.createLabel(request.body)
-    .then( () => {
+    .then( (label) => {
       console.log("created label, didnt break")
-      response.json(null)
+      response.json(label)
     })
     .catch(console.log("create label route didnt work"))
 })
