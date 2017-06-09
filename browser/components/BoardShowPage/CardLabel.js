@@ -6,10 +6,10 @@ export default class CardLabels extends Component {
   }
 
   render() {
-    const labels = this.props.card.labels.map( (label, index) => {
-      return(
-      <span className="label" key={index} style={{backgroundColor: label.color}}>{label.name}</span>
-    )
+    const labels = this.props.labels.map( (label, index) => {
+      if( this.props.card.labels.includes(label.id)){
+        return (<span className="label" key={index} style={{backgroundColor: label.color}}>{label.name}</span>)
+      }
     })
 
     return(

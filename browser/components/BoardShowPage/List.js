@@ -90,6 +90,7 @@ export default class List extends Component {
         board={board}
         list={list}
         onDragStart={this.props.onDragStart}
+        labels={board.labels}
       />
     )
 
