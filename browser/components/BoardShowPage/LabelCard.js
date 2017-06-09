@@ -51,6 +51,7 @@ export default class LabelCard extends Component {
 
   labelClickHandler( index ){
     console.log('adding label ',this.state.labels[index].name,' to card ',this.props.card.content)
+    this.props.toggleLabel( index )
   }
 
   buildLabelList(){

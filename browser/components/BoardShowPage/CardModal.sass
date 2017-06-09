@@ -1,6 +1,11 @@
 @import "../../style.sass"
 
 .CardModal
+  .label
+    border-radius: 3px
+    padding: 2px
+    margin: 1px
+
   &-archivedBanner
     background-color: #FDFAE5
     background-image: linear-gradient(to bottom right,rgba(0,0,0,.05) 25%,transparent 25%,transparent 50%,rgba(0,0,0,.05) 50%,rgba(0,0,0,.05) 75%,transparent 75%,transparent)
@@ -235,7 +240,7 @@
         background: #E2E4E6
         padding: 7px
         color: #4d4d4d
-        font: 14px "Helvetica Neue",Arial,Helvetica,sans-serif
+        font: 14px monospace,"Helvetica Neue",Arial,Helvetica,sans-serif
         line-height: 18px
         transition: background .15s
         &:focus

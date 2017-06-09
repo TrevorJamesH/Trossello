@@ -8,6 +8,7 @@ import autosize from 'autosize'
 import ArchiveButton from './ArchiveButton'
 import ConfirmationLink from '../ConfirmationLink'
 import EditCardForm from './EditCardForm'
+import CardLabel from './CardLabel'
 
 export default class Card extends Component {
   static contextTypes = {
@@ -127,6 +128,7 @@ export default class Card extends Component {
         draggable
         onDragStart={this.props.onDragStart}
       >
+        <CardLabel card={card} />
         <pre>{card.content}</pre>
         {archivedFooter}
       </Link>

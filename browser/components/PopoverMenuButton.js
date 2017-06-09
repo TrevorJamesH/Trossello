@@ -4,6 +4,7 @@ import ToggleComponent from './ToggleComponent'
 
 export default class PopoverMenuButton extends ToggleComponent {
 
+
   static propTypes = {
     popover: React.PropTypes.element.isRequired,
     buttonType: React.PropTypes.string,

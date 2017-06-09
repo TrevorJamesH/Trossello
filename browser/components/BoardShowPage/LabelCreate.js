@@ -58,8 +58,10 @@ export default class LabelCreate extends Component {
       dataType: "json",
       data: JSON.stringify(label),
     })
-    this.props.onClose()
-    this.props.createLabel( label )
+    .then( label => {
+      this.props.createLabel( label )
+      this.props.onClose()
+    })
   }
 
   reset(){

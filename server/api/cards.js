@@ -45,8 +45,6 @@ router.post('/:cardId/delete', (request, response, next) => {
     .catch(next)
 })
 
-
-
 // MOVE
 router.post('/:cardId/move', (request, response, next) => {
   let { boardId, listId, order } = request.body
@@ -60,6 +58,26 @@ router.post('/:cardId/move', (request, response, next) => {
       response.json(null)
     })
     .catch(next)
+})
+
+// APPLY LABEL
+router.post('/:cardId/applyLabel/:labelId', (request, response, next) => {
+  const { cardId, labelId } = request.params
+
+  commands.applyLabel( cardId, labelId )
+    .then(() => response.json(null))
+    .catch(next)
+})
+
+
+// REMOVE LABEL
+router.post('/:cardId/removeLabel/:labelId', (request, response, next) => {
+  let { cardId, labelId } = request.params
+  commands.removeLabel( cardId, labelId )
+  .then(() => {
+    response.json(null)
+  })
+  .catch(next)
 })
 
 export default router
