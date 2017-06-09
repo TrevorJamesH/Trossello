@@ -15,8 +15,7 @@ router.post('/', (request, response, next) => {
 
 // EDIT
 router.post('/:labelId', (request, response, next) => {
-  console.log("attempting edit")
-  commands.editLabel(request.body.labelId, request.body)
+  commands.editLabel(request.params.labelId, request.body)
     .then(card => {
       if (card){
         response.json(card)
@@ -31,7 +30,7 @@ router.post('/:labelId', (request, response, next) => {
 
 // DELETE
 router.post('/:labelId/delete', (request, response, next) => {
-  commands.deleteLabel(request.body.labelId)
+  commands.deleteLabel(request.params.labelId)
     .then(() => response.json(null))
     .catch(next)
 })

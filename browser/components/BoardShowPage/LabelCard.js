@@ -5,6 +5,7 @@ import Button from '../Button'
 import DialogBox from '../DialogBox'
 import Label from './Label'
 import LabelCreate from './LabelCreate'
+import LabelEdit from './LabelEdit'
 import PopoverMenuButton from '../PopoverMenuButton'
 import Icon from '../Icon'
 import './CardModal.sass'
@@ -15,32 +16,11 @@ export default class LabelCard extends Component {
     this.state = {
       boardId: this.props.board.id,
       title: this.props.card.content,
-      labels: this.props.board.labels
+      labels: this.props.board.labels,
+      labelPane: 'Select Label',
+      editing: null
     }
-    this.changeLabelHandler = this.changeLabelHandler.bind(this)
-  }
-
-  changeLabelHandler(event){
-    event.preventDefault()
-    if (this.state.title.replace(/\s+/g,'') === '') { return }
-    $.ajax({
-      method: 'post',
-      url: `/api/boards/${this.state.boardId}/lists/${this.state.listId}/cards`,
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      data: JSON.stringify({content: this.state.title}),
-    }).then( card => {
-      $.ajax({
-        method: 'post',
-        url: `/api/cards/${card.id}/move`,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify({boardId: card.board_id, listId: card.list_id, order: this.state.order}),
-      }).then( () => {
-        boardStore.reload()
-        this.props.onClose()
-      })
-    })
+    this.changePane = this.changePane.bind(this)
   }
 
   createLabel( newLabel ){
@@ -50,18 +30,54 @@ export default class LabelCard extends Component {
   }
 
   labelClickHandler( index ){
-    console.log('adding label ',this.state.labels[index].name,' to card ',this.props.card.content)
     this.props.toggleLabel( index )
+  }
+
+  editLabel( index ){
+    let state = this.state
+    state.editing = index
+    this.setState(state)
+    this.changePane( 'Edit Label' )
+  }
+
+  deleteLabel( index ){
+    $.ajax({
+      method: "POST",
+      url: `/api/labels/${this.props.board.labels[index].id}/delete`,
+    })
   }
 
   buildLabelList(){
     return this.state.labels.map( (label, index) => {
-      return <Label label={label} key={index} index={index} onClick={this.labelClickHandler.bind(this)}/>
+      return(
+      <Label label={label}
+        key={index}
+        index={index}
+        onClick={this.labelClickHandler.bind(this)}
+        editLabel={this.editLabel.bind(this)}
+        deleteLabel={this.deleteLabel.bind(this)}
+      />)
     })
   }
 
+  changePane( pane ){
+    let newState = this.state
+    newState.labelPane = pane
+    this.setState(newState)
+  }
+
+  onClose(){
+    this.changePane('Select Label')
+    this.props.reload()
+  }
+
   render(){
-    const labelCreate = <LabelCreate board={this.props.board} createLabel={this.createLabel.bind(this)}/>
+    const labelPane = {
+      'Edit Label'  : <LabelEdit index={this.state.editing} card={this.props.board.labels[this.state.editing]} board={this.props.board} onClose={this.onClose.bind(this)}/>,
+      'Create Label': <LabelCreate board={this.props.board} createLabel={this.createLabel.bind(this)} onClose={this.onClose.bind(this)}/>,
+      'Select Label': null
+    }
+
     if (this.state.boards === null){
       return <DialogBox className="CardModal-CopyCardDialog" heading='Labels' onClose={this.props.onClose}>
         Loading…
@@ -79,10 +95,10 @@ export default class LabelCard extends Component {
       <div>
       {labelList}
 
-
-      <PopoverMenuButton className="CardModal-controls-copy" type="default" popover={labelCreate}>
+      <Button className="CardModal-controls-copy" type="default" onClick={()=>this.changePane('Create Label')}>
         <Icon type="plus" /> New Label
-      </PopoverMenuButton>
+      </Button>
+        {labelPane[this.state.labelPane]}
       </div>
     </DialogBox>
   }

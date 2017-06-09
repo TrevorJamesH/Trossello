@@ -6,30 +6,42 @@ import Icon from '../Icon'
 import Link from '../Link'
 
 export default class Label extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
+    this.onClick = this.onClick.bind(this)
+    this.edit = this.edit.bind(this)
+    this.delete = this.delete.bind(this)
   }
 
-  editLabel(){
-    console.log('editLabel button pressed')
+  edit(event){
+    event.preventDefault()
+    this.props.editLabel( this.props.index )
+  }
+
+  onClick(event){
+    event.preventDefault()
+    this.props.onClick( this.props.index )
+  }
+
+  delete(event){
+    event.preventDefault()
+    this.props.deleteLabel( this.props.index )
   }
 
   render(){
     const { name, color } = this.props.label
-    const editLabelButton = <EditLabelButton onClick={this.editLabel} />
     return(
-      <div>
-        <Link className="BoardShowPage-Card-box" style={{backgroundColor: color}} onClick={()=>this.props.onClick(this.props.index)}>
+      <div className="BoardShowPage-Label">
+        <Link className="BoardShowPage-Label-Link" style={{backgroundColor: color}} onClick={this.onClick}>
           {name}
         </Link>
-        {editLabelButton}
+        <Link className="BoardShowPage-Label-pencil" onClick={this.edit}>
+          <Icon size='0' type="pencil" />
+        </Link>
+        <Link className="BoardShowPage-Label-pencil" onClick={this.delete}>
+          <Icon size='0' type="close" />
+        </Link>
       </div>
     )
   }
-}
-
-const EditLabelButton = (props) => {
-  return <Link className="penncil" onClick={props.onClick}>
-    <Icon size='0' type="pencil" />
-  </Link>
 }

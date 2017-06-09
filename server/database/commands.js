@@ -428,8 +428,13 @@ const createLabel = ( attributes ) => {
   return createRecord('labels', attributes)
 }
 
-const editLabel = ( attributes ) => {
-  return updateRecord( 'labels', attributes.id, attributes )
+const editLabel = ( id, attributes ) => {
+  return knex
+    .table('labels')
+    .where('id', id)
+    .update(attributes)
+    .returning('*')
+    .then(firstRecord)
 }
 
 const deleteLabel = ( id ) => {

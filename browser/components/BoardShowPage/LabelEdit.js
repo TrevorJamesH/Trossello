@@ -6,9 +6,10 @@ import Icon from '../Icon'
 import Form from '../Form'
 import Button from '../Button'
 import DialogBox from '../DialogBox'
+import boardStore from '../../stores/boardStore'
 
 
-export default class LabelCreate extends Component {
+export default class LabelEdit extends Component {
 
   static contextTypes = {
     redirectTo: React.PropTypes.func,
@@ -17,8 +18,8 @@ export default class LabelCreate extends Component {
   constructor(props){
     super(props)
     this.state = {
-      color: '',
-      name: ''
+      color: this.props.card.color,
+      name: this.props.card.name
     }
     this.updateColor = this.updateColor.bind(this)
     this.onClick = this.onClick.bind(this)
@@ -41,6 +42,8 @@ export default class LabelCreate extends Component {
   }
 
   onSubmit(event){
+    console.log('label create props', this.props)
+    console.log('label create state', this.state)
     event.preventDefault()
 
     const label = {
@@ -51,13 +54,12 @@ export default class LabelCreate extends Component {
     if (label.name.replace(/\s+/g,'') === '' || !colors.includes(label.color)) return
     $.ajax({
       method: "POST",
-      url: '/api/labels',
+      url: `/api/labels/${this.props.board.labels[this.props.index].id}`,
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       data: JSON.stringify(label),
     })
     .then( label => {
-      this.props.createLabel( label )
       this.props.onClose()
     })
   }
@@ -73,14 +75,14 @@ export default class LabelCreate extends Component {
     )
 
     return <DialogBox
-      heading="New Label"
+      heading="Edit Label"
       onClose={this.props.onClose}
       className="CreateBoardPopover"
     >
       <Form onSubmit={this.onSubmit}>
         <label>
           <div>Name</div>
-          <input type="text" ref="name"/>
+          <input type="text" ref="name" value={this.props.card.name}/>
         </label>
         <div className="CreateBoardPopover-createBackgroundColor">
           {colorBoxes}
@@ -94,7 +96,7 @@ export default class LabelCreate extends Component {
             onChange={this.updateColor}
           />
         </label>
-        <Button type="primary" action="submit">Create</Button>
+        <Button type="primary" action="submit">Save</Button>
       </Form>
     </DialogBox>
   }

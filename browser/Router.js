@@ -10,6 +10,7 @@ import StyleGuidePage from './components/StyleGuidePage'
 
 export default class Router extends SimpleReactRouter {
   getRoutes(map, props){
+
     if (!props) debugger
     const { session } = props
 

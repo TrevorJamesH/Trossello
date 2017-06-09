@@ -128,7 +128,7 @@ export default class Card extends Component {
         draggable
         onDragStart={this.props.onDragStart}
       >
-        <CardLabel card={card} />
+        <CardLabel card={card} labels={this.props.labels}/>
         <pre>{card.content}</pre>
         {archivedFooter}
       </Link>

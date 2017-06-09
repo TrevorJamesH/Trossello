@@ -110,7 +110,7 @@ const getListsAndCardsForBoard = (board) => {
                 card.labels = []
                 cardLabels.forEach( cardLabel => {
                   if(cardLabel.card_id === card.id){
-                    card.labels.push({name: cardLabel.name, color: cardLabel.color, id: cardLabel.id})
+                    card.labels.push(cardLabel.id)
                   }
                 })
                 return card

@@ -44,8 +44,7 @@ export default class CardModal extends Component {
   }
 
   toggleLabel( index ){
-    console.log('toggleLabel', index)
-    this.props.card.labels.some( label => label.id === this.props.board.labels[index].id )
+    this.props.card.labels.some( label => label === this.props.board.labels[index].id )
     ? this.removeLabelFromCard( index )
     : this.addLabelToCard( index )
   }
@@ -68,10 +67,14 @@ export default class CardModal extends Component {
     })
   }
 
+  reload(){
+    boardStore.reload()
+  }
+
   render(){
     const Controls = ({card, closeModal, board, list}) => {
       const copyCard = <CopyCard card={card} board={board} list={list}/>
-      const labelCard = <LabelCard card={card} board={board} list={list} toggleLabel={this.toggleLabel.bind(this)}/>
+      const labelCard = <LabelCard card={card} board={board} list={list} toggleLabel={this.toggleLabel.bind(this)} reload={()=>this.reload.bind(this)}/>
       const toggleOnArchived = card.archived ?
         <div>
           <UnArchiveCardButton card={card} />
@@ -93,8 +96,6 @@ export default class CardModal extends Component {
     }
 
 
-    console.log('cardModal state',this.state)
-    console.log('cardModal props',this.props)
     const { session } = this.context
     const { card, list, board } = this.props
     const archivedBanner = card.archived?
@@ -126,7 +127,7 @@ export default class CardModal extends Component {
                       </span>
                     </div>
                       <h4>Labels</h4>
-                      <CardLabel card={card} />
+                      <CardLabel card={card} labels={board.labels}/>
                       <CardDescription card={card} />
                   </div>
                 </div>
